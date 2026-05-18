@@ -8,6 +8,11 @@ import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfUse from "./pages/TermsOfUse";
 import RiskDisclosure from "./pages/RiskDisclosure";
+import MarketsPage from "./pages/MarketsPage";
+import AiMentorPage from "./pages/AiMentorPage";
+import CalendarPage from "./pages/CalendarPage";
+import BlogPage from "./pages/BlogPage";
+import PricingPage from "./pages/PricingPage";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +24,11 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/markets" element={<MarketsPage />} />
+          <Route path="/ai-mentor" element={<AiMentorPage />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route path="/risk-disclosure" element={<RiskDisclosure />} />
