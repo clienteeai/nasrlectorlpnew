@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Check, HelpCircle, Sparkles } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 
 interface PricingTier {
   name: string;
   tagline: string;
   monthlyPrice: number;
   annualPrice: number;
+  isLifetime?: boolean;
+  lifetimePrice?: number;
   popular: boolean;
   features: string[];
   ctaText: string;
@@ -14,55 +16,56 @@ interface PricingTier {
 
 const PRICING_TIERS: PricingTier[] = [
   {
-    name: "Lector Lite",
-    tagline: "For aspiring traders testing their discipline.",
-    monthlyPrice: 0,
-    annualPrice: 0,
+    name: "Lector Pro",
+    tagline: "Comprehensive white-labeled AI-guided training system.",
+    monthlyPrice: 490,
+    annualPrice: 390,
     popular: false,
     features: [
-      "1 Custom AI Learning Roadmap",
-      "Introductory Academy Lessons (Level 1)",
-      "Standard Trading Terms Glossary",
-      "AI Mentor access (3 queries per day)",
-      "Community General Channel access"
-    ],
-    ctaText: "Start For Free",
-    ctaLink: "https://trade.nasrlector.com/landing?signup=1"
-  },
-  {
-    name: "Lector Pro",
-    tagline: "For dedicated traders seeking consistency.",
-    monthlyPrice: 49,
-    annualPrice: 39,
-    popular: true,
-    features: [
-      "Unlimited AI Learning Roadmaps",
       "Full Adaptive Academy Curriculum (Levels 1-3)",
-      "24/7 Dedicated AI Mentor (Fast Response)",
+      "Unlimited AI Learning Roadmaps",
+      "24/7 Dedicated AI Mentor Support",
       "Progression-Locked Skill Quizzes",
       "Interactive Trading Diary & Logbook",
-      "Smart Risk & Lot Size Calculators",
-      "Weekly live analysis recording seats"
+      "Smart Risk & Lot Size Calculators"
     ],
-    ctaText: "Unlock Pro Access",
+    ctaText: "Enroll Now",
     ctaLink: "https://trade.nasrlector.com/landing?signup=1"
   },
   {
-    name: "Lector Elite",
-    tagline: "For professional traders scaling to prop sizes.",
-    monthlyPrice: 149,
-    annualPrice: 119,
+    name: "Lector VIP",
+    tagline: "Complete system access with direct daily diagnostics and setups.",
+    monthlyPrice: 990,
+    annualPrice: 790,
+    popular: true,
+    features: [
+      "Everything in Lector Pro",
+      "Priority AI Mentor Core (Deep Diagnostics)",
+      "Daily Market Briefings & Real Trade Setups",
+      "Weekly Live Webinar Seat & Q&A Access",
+      "Direct Curriculum Tuner Updates",
+      "VIP General Lounge access"
+    ],
+    ctaText: "Unlock VIP Experience",
+    ctaLink: "https://trade.nasrlector.com/landing?signup=1"
+  },
+  {
+    name: "Lector Lifetime",
+    tagline: "Infinite institutional pass to all current and future releases.",
+    monthlyPrice: 4900,
+    annualPrice: 4900,
+    isLifetime: true,
+    lifetimePrice: 4900,
     popular: false,
     features: [
-      "Custom 1-on-1 AI Curriculum Tuning",
-      "Advanced Trading Simulator (All Assets)",
-      "Priority AI Mentor Core (Deep Diagnostics)",
-      "Daily Market Briefings & Trade Setups",
-      "Live Trading Room Seats (Weekly Interactive)",
-      "Private Institutional Discord & VIP Events",
-      "Direct Priority Support & Roadmap Updates"
+      "Lifetime Untangled Academy License",
+      "All Future AI Roadmap Upgrades Free",
+      "Private Institutional Discord Access",
+      "VIP Live Trading Room Seats (Lifetime)",
+      "Personalized 1-on-1 AI Training Plan Tuning",
+      "Priority Direct Support Hotlines"
     ],
-    ctaText: "Go Institutional",
+    ctaText: "Get Lifetime License",
     ctaLink: "https://trade.nasrlector.com/landing?signup=1"
   }
 ];
@@ -89,13 +92,13 @@ export default function PricingSection() {
             <span className="text-gradient-gold">Accelerate Your Mastery.</span>
           </h2>
           <p className="text-lg text-foreground/75 font-sans leading-relaxed">
-            Select the plan tailored to your trading status. Start for free to map your skills, or unlock Pro to run full AI adaptivity and discipline logging.
+            Select the professional plan tailored to your trading commitment and financial growth targets.
           </p>
 
           {/* Interactive Billing Toggle */}
           <div className="flex items-center justify-center gap-4 mt-10">
             <span className={`text-sm font-semibold transition-colors duration-300 ${billingCycle === "monthly" ? "text-foreground" : "text-foreground/45"}`}>
-              Monthly
+              Monthly Billing
             </span>
             
             <button
@@ -111,7 +114,7 @@ export default function PricingSection() {
             </button>
 
             <span className={`text-sm font-semibold flex items-center gap-1.5 transition-colors duration-300 ${billingCycle === "annual" ? "text-foreground font-bold" : "text-foreground/45"}`}>
-              Annual
+              Annual Billing
               <span className="inline-flex items-center text-[10px] font-bold text-foreground bg-gold tracking-wide px-2 py-0.5 rounded-full animate-bounce">
                 SAVE 20%
               </span>
@@ -122,8 +125,10 @@ export default function PricingSection() {
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 items-stretch">
           {PRICING_TIERS.map((tier) => {
-            const price = billingCycle === "annual" ? tier.annualPrice : tier.monthlyPrice;
-            const isFree = price === 0;
+            const isLifetime = tier.isLifetime;
+            const price = isLifetime 
+              ? tier.lifetimePrice 
+              : (billingCycle === "annual" ? tier.annualPrice : tier.monthlyPrice);
             
             return (
               <div
@@ -138,7 +143,7 @@ export default function PricingSection() {
                 {tier.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gold border border-gold-light text-navy font-bold text-xs tracking-luxury uppercase z-20">
                     <Sparkles className="w-3.5 h-3.5 fill-current" />
-                    MOST POPULAR
+                    MOST RECOMMENDED
                   </div>
                 )}
 
@@ -147,25 +152,28 @@ export default function PricingSection() {
                   <h3 className={`text-2xl font-bold mb-2 ${tier.popular ? "text-gold" : "text-foreground"}`}>
                     {tier.name}
                   </h3>
-                  <p className="text-sm text-foreground/50 font-sans mb-8 leading-relaxed">
+                  <p className="text-sm text-foreground/50 font-sans mb-8 leading-relaxed min-h-[40px]">
                     {tier.tagline}
                   </p>
                   
                   {/* Price */}
                   <div className="mb-8 flex items-baseline gap-1">
                     <span className="text-5xl font-mono font-bold tracking-tight text-foreground">
-                      {isFree ? "Free" : `$${price}`}
+                      ${price?.toLocaleString()}
                     </span>
-                    {!isFree && (
-                      <span className="text-sm text-foreground/45 font-sans font-medium">
-                        / month
-                      </span>
-                    )}
+                    <span className="text-sm text-foreground/45 font-sans font-medium">
+                      {isLifetime ? " one-time" : " / month"}
+                    </span>
                   </div>
 
-                  {billingCycle === "annual" && !isFree && (
+                  {billingCycle === "annual" && !isLifetime && (
                     <div className="text-xs text-gold/80 font-semibold mb-6 bg-gold/5 border border-gold/10 rounded py-1 px-2.5 inline-block font-mono">
                       Billed annually (Save ${(tier.monthlyPrice - tier.annualPrice) * 12}/year)
+                    </div>
+                  )}
+                  {isLifetime && (
+                    <div className="text-xs text-emerald-400 font-semibold mb-6 bg-emerald-500/5 border border-emerald-500/10 rounded py-1 px-2.5 inline-block font-mono">
+                      Unlimited access, never billed again
                     </div>
                   )}
 
@@ -204,7 +212,7 @@ export default function PricingSection() {
 
         {/* Footnote Disclaimer */}
         <div className="text-center mt-12 text-xs text-foreground/45 max-w-xl mx-auto font-sans">
-          All signups are subject to Nasr Lector white-label terms of service. For direct enterprise licensing or team packages, please contact platform integrations.
+          All subscriptions are subject to Nasr Lector white-label academy terms. For direct corporate licensing or institutional team access, please contact integrations support.
         </div>
 
       </div>
