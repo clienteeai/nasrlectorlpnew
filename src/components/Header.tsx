@@ -53,9 +53,9 @@ export default function Header() {
               {MENU_LINKS.map((item) => {
                 const active = isActive(item.href);
                 return (
-                  <a
+                  <Link
                     key={item.name}
-                    href={item.href}
+                    to={item.href}
                     className={`px-2.5 py-2 text-xs lg:text-sm font-bold tracking-luxury transition-colors duration-300 relative group uppercase ${
                       active ? "text-gold" : "text-foreground/75 hover:text-gold"
                     }`}
@@ -64,7 +64,7 @@ export default function Header() {
                     <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-gold transition-all duration-300 ${
                       active ? "w-8" : "w-0 group-hover:w-8"
                     }`} />
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -121,9 +121,9 @@ export default function Header() {
           >
             <div className="flex flex-col gap-2.5">
               {MENU_LINKS.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`block px-4 py-3 text-sm font-bold tracking-luxury rounded-xl transition-all duration-300 uppercase ${
                     isActive(item.href) 
@@ -132,7 +132,7 @@ export default function Header() {
                   }`}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
               
               <hr className="border-border/30 my-3" />
