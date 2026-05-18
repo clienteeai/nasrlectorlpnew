@@ -6,6 +6,8 @@ import InsideLookSection from "@/components/InsideLookSection";
 import Footer from "@/components/Footer";
 import MarketTicker from "@/components/MarketTicker";
 import PricingSection from "@/components/PricingSection";
+import MarketsExplorer from "@/components/MarketsExplorer";
+
 
 
 // YouTube Video Popup Component
@@ -746,6 +748,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* MARKETS EXPLORER TERMINAL */}
+      <MarketsExplorer />
 
       {/* HOW IT WORKS - STEPS */}
       <HowItWorksSection steps={steps} />
