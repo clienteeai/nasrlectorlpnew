@@ -66,7 +66,9 @@ export default function MarketTicker() {
           return prevAssets.map(asset => {
             const result = results.find(r => r && r.symbol === asset.symbol);
             if (result && result.data) {
-              const apiData = result.data;
+              const apiData = Array.isArray(result.data) ? result.data[0] : result.data;
+              if (!apiData) return asset;
+
               const newPrice = Number(apiData.price);
               const oldPrice = asset.price;
               
