@@ -101,7 +101,7 @@ export default function MarketIntelligence() {
   }, []);
 
   return (
-    <section className="py-24 relative overflow-hidden bg-background border-t border-gold/10">
+    <section id="news" className="py-24 relative overflow-hidden bg-background border-t border-gold/10">
       <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-gold/5 rounded-full blur-[100px] pointer-events-none z-0" />
 
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl relative z-10">

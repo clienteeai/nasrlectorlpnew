@@ -4,28 +4,28 @@
 
 @layer base {
   :root {
-    /* Core brand colors - Ultra premium palette */
-    --background: 222 50% 4%;
-    --foreground: 45 20% 95%;
+    /* Core brand colors - Pure Luxury Velvet Obsidian-Black base */
+    --background: 240 24% 2%;
+    --foreground: 40 20% 96%;
     
-    /* Navy variations - Deep luxury black-navy */
-    --navy: 222 50% 4%;
-    --navy-light: 222 45% 8%;
-    --navy-lighter: 222 40% 12%;
+    /* Velvet Obsidian Black Variations - Deeper, cleaner contrast */
+    --navy: 240 24% 2%;
+    --navy-light: 240 20% 5%;
+    --navy-lighter: 240 18% 8%;
     
-    /* Royal Gold accent - Authentic luxury gold */
-    --gold: 43 76% 52%;
-    --gold-light: 45 70% 62%;
-    --gold-dark: 40 80% 42%;
+    /* Satin Champagne Gold Accent - Highly sophisticated brushed metallic look */
+    --gold: 40 42% 62%;
+    --gold-light: 42 45% 74%;
+    --gold-dark: 38 45% 48%;
     
-    /* Emerald accent - Refined */
-    --emerald: 160 100% 33%;
-    --emerald-light: 160 85% 43%;
-    --emerald-dark: 160 100% 25%;
+    /* Muted Emerald accent */
+    --emerald: 160 50% 43%;
+    --emerald-light: 160 45% 53%;
+    --emerald-dark: 160 50% 33%;
     
     /* Luxury off-white text */
-    --luxury-white: 45 20% 95%;
-    --luxury-cream: 40 25% 88%;
+    --luxury-white: 40 20% 96%;
+    --luxury-cream: 40 15% 86%;
     
     /* Semantic tokens */
     --card: 222 45% 6%;

@@ -58,12 +58,13 @@ Position Size = $100 / (15 pips × $10) = $100 / $150 = **0.67 Lots**
 };
 
 export default function AiMentorSection() {
-  const [activeCategory, setActiveCategory] = useState<"risk" | "liquidity" | "psychology">("risk");
+  const [activeCategory, setActiveCategory] = useState<"risk" | "liquidity" | "psychology" | "custom">("risk");
   const [messages, setMessages] = useState<MockMessage[]>([
     { sender: "user", text: CONVERSATION_TEMPLATES.risk.question, timestamp: "11:15 AM" },
     { sender: "ai", text: CONVERSATION_TEMPLATES.risk.response, timestamp: "11:15 AM" }
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [customInput, setCustomInput] = useState("");
 
   const handleSelectQuestion = (cat: "risk" | "liquidity" | "psychology") => {
     if (isTyping) return;
@@ -91,6 +92,75 @@ export default function AiMentorSection() {
     }, 1500);
   };
 
+  const handleSendCustomMessage = () => {
+    if (!customInput.trim() || isTyping) return;
+    
+    const userText = customInput.trim();
+    setCustomInput("");
+    setActiveCategory("custom");
+    
+    // Add user message
+    const userMsg: MockMessage = {
+      sender: "user",
+      text: userText,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    
+    setMessages(prev => [...prev, userMsg]);
+    setIsTyping(true);
+
+    // Dynamic Keyword-Driven AI Response Synthesis
+    let aiResponse = "";
+    const query = userText.toLowerCase();
+
+    if (query.includes("loss") || query.includes("lose") || query.includes("revenge") || query.includes("emotional") || query.includes("drawdown") || query.includes("angry")) {
+      aiResponse = `Taking sequential losses triggers your emotional amygdala, releasing adrenaline and cortisol. This locks you in a "fight or flight" loop, leading directly to **Revenge Trading**.
+
+### 🧠 Tactical Reset Protocol:
+1. **Daily Loss Limit:** Nasr Lector enforces a strict cap of **maximum 2 losses per day**. Once breached, shut down your platform instantly.
+2. **The 15-Minute Cool-down:** Force yourself to step away from your charts to lower cortisol levels.
+3. **Rational Override:** Complete a quick 3-question psychology quiz on your roadmap dashboard to shift neural activity back to your prefrontal cortex.`;
+    } else if (query.includes("risk") || query.includes("size") || query.includes("lot") || query.includes("leverage") || query.includes("math")) {
+      aiResponse = `Strict mathematical position sizing is the absolute first layer of capital protection. Amateur traders guess; professionals calculate.
+
+### 📊 Position Sizing Formula:
+Position Size (Lots) = [Account Capital × Target Risk %] / [Stop Loss (Pips) × Standard Pip Value]
+
+*Example:* For a $10,000 account risking 1.00% ($100 maximum risk limit) with a 15-pip stop loss:
+Position Size = $100 / (15 pips × $10) = **0.67 Lots**. Never exceed this calculated size!`;
+    } else if (query.includes("support") || query.includes("resistance") || query.includes("liquidity") || query.includes("smart money") || query.includes("breakout") || query.includes("order")) {
+      aiResponse = `Institutions do not trade obvious retail support and resistance zones. Instead, they view these obvious levels as pools of rest stop orders (**Liquidity**).
+
+### 📈 Smart Money Liquidity Sweeps:
+1. **Buy-Side Liquidity (BSL):** Resting stop losses of short sellers above swing highs. Institutions push price past these highs to absorb buy orders and fill large **sell limits**.
+2. **Sell-Side Liquidity (SSL):** Resting stop losses of buyers below swing lows. Institutions drive price beneath support to trigger sell stops, allowing them to **buy at discount wholesale prices**.
+3. **Execution Tip:** Always wait for a liquidity raid to clear out retail stops before checking for market structures shift entries.`;
+    } else if (query.includes("hello") || query.includes("hi") || query.includes("hey") || query.includes("who are you") || query.includes("help")) {
+      aiResponse = `Hello! I am your 24/7 AI Mentor Core. 
+
+I am here to guide you through institutional order flow structures, calculate exact position sizes, and build emotional discipline safeguards for your portfolio. Ask me a direct question about strategy, risk management, or psychology to get started!`;
+    } else {
+      aiResponse = `That is an excellent technical query. To master this concept:
+
+1. **Academy Roadmap:** This topic is extensively covered in Level 1 & 2 of your custom Academy Roadmap.
+2. **Market Diagnostics:** Backtest this specific scenario using your active Markets Explorer terminal across 20 historical instances.
+3. **Risk Guardrails:** Ensure a strict 1% risk rule is applied with a hard stop loss if practicing this setup on live feeds.
+
+Keep learning with structure, log your entries, and protect your capital!`;
+    }
+
+    // Simulate typing delay
+    setTimeout(() => {
+      const aiMsg: MockMessage = {
+        sender: "ai",
+        text: aiResponse,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setMessages(prev => [...prev, aiMsg]);
+      setIsTyping(false);
+    }, 1800);
+  };
+
   // Scroll to bottom of chat window
   useEffect(() => {
     const chatContainer = document.getElementById("chat-window");
@@ -115,7 +185,7 @@ export default function AiMentorSection() {
             Your Personal <span className="text-gradient-gold">24/7 AI Mentor</span>
           </h2>
           <p className="text-lg text-foreground/75 font-sans leading-relaxed">
-            Stop trading alone. The AI Mentor acts as your professional co-pilot, mathematically sizing your positions, diagnosing your trading psychology, and keeping you aligned with institutional order flow.
+            Stop trading alone. Type any custom question below to ask the AI Mentor, or choose one of our predefined technical queries on the left to explore diagnostic capabilities.
           </p>
         </div>
 
@@ -149,7 +219,7 @@ export default function AiMentorSection() {
                     </span>
                   </div>
                   <p className="text-sm font-semibold leading-snug">
-                    {cat === "risk" && "精确 Position Size calculation."}
+                    {cat === "risk" && "Precise Position Size calculations."}
                     {cat === "liquidity" && "BSL vs SSL institutional structures."}
                     {cat === "psychology" && "Solve Revenge Trading and drawdown habits."}
                   </p>
@@ -242,17 +312,27 @@ export default function AiMentorSection() {
               )}
             </div>
 
-            {/* Input Bar Placeholder */}
+            {/* Input Bar - NOW FULLY INTERACTIVE & OPERATIONAL */}
             <div className="bg-navy-light/95 border-t border-border/50 px-6 py-4 flex items-center gap-4 z-10">
               <input
                 type="text"
-                disabled
-                placeholder="Select one of the premium diagnostic queries on the left to test the AI Mentor..."
-                className="flex-1 bg-background/50 border border-border/40 rounded-xl px-4 py-3 text-xs text-foreground/45 placeholder-foreground/25 font-sans outline-none cursor-not-allowed"
+                value={customInput}
+                disabled={isTyping}
+                onChange={(e) => setCustomInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSendCustomMessage();
+                }}
+                placeholder={isTyping ? "AI Mentor is analyzing your prompt..." : "Ask the AI Mentor anything (e.g. 'What is risk sizing?', 'Explain support')..."}
+                className="flex-1 bg-background/50 border border-border/40 rounded-xl px-4 py-3 text-xs text-foreground/80 placeholder-foreground/40 font-sans outline-none focus:border-gold/50 transition-all duration-300"
               />
               <button 
-                disabled 
-                className="p-3 rounded-xl bg-gradient-gold/30 text-navy/40 flex items-center justify-center cursor-not-allowed"
+                onClick={handleSendCustomMessage}
+                disabled={isTyping || !customInput.trim()}
+                className={`p-3 rounded-xl transition-all duration-300 flex items-center justify-center ${
+                  !customInput.trim() || isTyping
+                    ? "bg-gold/10 text-gold/30 cursor-not-allowed"
+                    : "bg-gradient-gold text-navy shadow-md shadow-gold/20 hover:scale-105"
+                }`}
               >
                 <Send className="w-4 h-4" />
               </button>

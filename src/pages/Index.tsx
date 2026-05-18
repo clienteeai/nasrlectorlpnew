@@ -372,6 +372,16 @@ const testimonials = [
 
 const Index = () => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  const MENU_LINKS = [
+    { name: "Markets", href: "#markets" },
+    { name: "Syllabus", href: "#syllabus" },
+    { name: "AI Mentor", href: "#ai-mentor" },
+    { name: "Calendar", href: "#news" },
+    { name: "Blog", href: "#blog" },
+    { name: "Pricing", href: "#pricing" }
+  ];
   
   return (
     <div className="min-h-screen bg-background">
@@ -384,34 +394,115 @@ const Index = () => {
       </div>
 
       {/* Navigation - shifted top-11 to slide below the ticker */}
-      <nav className="fixed top-11 left-0 right-0 z-50 border-b border-border/30" style={{ background: 'rgba(10, 10, 13, 0.92)', backdropFilter: 'blur(20px)' }}>
+      <nav className="fixed top-11 left-0 right-0 z-50 border-b border-border/30" style={{ background: 'rgba(10, 10, 13, 0.94)', backdropFilter: 'blur(24px)' }}>
         <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
           <div className="flex items-center justify-between h-16 lg:h-20">
-            <div className="flex items-center gap-3">
-              <span className="font-serif text-xl lg:text-2xl font-bold text-foreground">Nasr <span className="text-gold">Lector</span></span>
+            
+            {/* Logo */}
+            <div className="flex items-center gap-3 shrink-0">
+              <span className="font-serif text-xl lg:text-2xl font-bold text-foreground">
+                Nasr <span className="text-gradient-gold">Lector</span>
+              </span>
             </div>
+
+            {/* Desktop Center Navigation Links */}
+            <div className="hidden md:flex items-center gap-1.5 lg:gap-4 z-10">
+              {MENU_LINKS.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="px-2.5 py-2 text-xs lg:text-sm font-bold tracking-luxury text-foreground/75 hover:text-gold transition-colors duration-300 relative group uppercase"
+                >
+                  {item.name}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gradient-gold transition-all duration-300 group-hover:w-8" />
+                </a>
+              ))}
+            </div>
+
+            {/* Action Buttons & Mobile Menu Toggle */}
             <div className="flex items-center gap-2 sm:gap-3">
-              <a 
-                href="https://trade.nasrlector.com/landing?signup=1"
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-300 sm:px-6 sm:text-base"
-                style={{ 
-                  background: 'linear-gradient(135deg, hsl(43 76% 52%), hsl(40 80% 42%))',
-                  color: 'hsl(222 50% 4%)',
-                  boxShadow: '0 0 30px rgba(212, 175, 55, 0.4), 0 4px 16px rgba(0,0,0,0.3)',
-                }}
+              <div className="hidden sm:flex items-center gap-2">
+                <a 
+                  href="https://trade.nasrlector.com/landing?signup=1"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-full px-5 py-2.5 text-xs font-bold transition-all duration-300"
+                  style={{ 
+                    background: 'linear-gradient(135deg, hsl(40 42% 62%), hsl(38 45% 48%))',
+                    color: 'hsl(240 24% 2%)',
+                    boxShadow: '0 0 20px rgba(212, 175, 55, 0.25)',
+                  }}
+                >
+                  Sign Up
+                </a>
+                <a 
+                  href="https://trade.nasrlector.com/login" 
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border/60 bg-background/10 px-5 py-2.5 text-xs font-bold text-foreground/85 transition-all duration-300 hover:bg-background/20 hover:text-foreground"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  Log In
+                </a>
+              </div>
+
+              {/* Mobile Hamburger Toggle */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 rounded-lg border border-border/50 bg-navy-light/60 text-foreground/80 hover:text-foreground hover:border-gold/30 transition-all duration-300 flex items-center justify-center"
+                aria-label="Toggle Menu"
               >
-                Sign Up
-              </a>
-              <a 
-                href="https://trade.nasrlector.com/login" 
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border/60 bg-background/10 px-4 py-2.5 text-sm font-semibold text-foreground/85 transition-all duration-300 hover:bg-background/20 hover:text-foreground sm:px-6 sm:text-base"
-              >
-                <User className="w-4 h-4" />
-                Log In
-              </a>
+                {isMobileMenuOpen ? (
+                  <X className="w-5 h-5 text-gold" />
+                ) : (
+                  <div className="space-y-1.5 w-5 flex flex-col items-end">
+                    <span className="h-0.5 w-5 bg-foreground rounded-full" />
+                    <span className="h-0.5 w-3.5 bg-gold rounded-full" />
+                    <span className="h-0.5 w-5 bg-foreground rounded-full" />
+                  </div>
+                )}
+              </button>
             </div>
+
           </div>
         </div>
+
+        {/* Mobile Menu Drawer Overlay */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 border-t border-border/50 bg-navy/98 backdrop-blur-2xl shadow-2xl py-6 px-4 animate-fade-in z-45">
+            <div className="flex flex-col gap-2.5">
+              {MENU_LINKS.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-4 py-3 text-sm font-bold tracking-luxury text-foreground/80 hover:text-gold hover:bg-navy-light/50 rounded-xl transition-all duration-300 uppercase"
+                >
+                  {item.name}
+                </a>
+              ))}
+              
+              <hr className="border-border/30 my-3" />
+              
+              <div className="flex flex-col gap-2.5 px-4">
+                <a 
+                  href="https://trade.nasrlector.com/landing?signup=1"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-center py-3 font-bold text-xs rounded-xl"
+                  style={{ 
+                    background: 'linear-gradient(135deg, hsl(40 42% 62%), hsl(38 45% 48%))',
+                    color: 'hsl(240 24% 2%)'
+                  }}
+                >
+                  Sign Up Free
+                </a>
+                <a 
+                  href="https://trade.nasrlector.com/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-center py-3 font-bold text-xs rounded-xl border border-border/60 hover:border-gold/30 text-foreground transition-all duration-300"
+                >
+                  Log In
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* HERO SECTION - adjusted padding-top to accommodate ticker + nav */}
