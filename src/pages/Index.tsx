@@ -865,20 +865,20 @@ const Index = () => {
           </div>
           
           <div className="rounded-2xl border border-gold/15 overflow-hidden">
-            <div className="grid grid-cols-3 bg-gold/[0.08] p-5">
-              <div className="text-foreground/55 font-medium text-sm lg:text-base">Feature</div>
-              <div className="text-center text-foreground/55 font-medium text-sm lg:text-base">Typical Courses</div>
-              <div className="text-center text-gold font-semibold text-sm lg:text-base">Nasr Lector</div>
+            <div className="grid grid-cols-[1.8fr_1fr_1fr] bg-gold/[0.08] p-4 sm:p-5">
+              <div className="text-foreground/55 font-medium text-xs sm:text-sm lg:text-base">Feature</div>
+              <div className="text-center text-foreground/55 font-medium text-xs sm:text-sm lg:text-base">Typical Courses</div>
+              <div className="text-center text-gold font-semibold text-xs sm:text-sm lg:text-base">Nasr Lector</div>
             </div>
             
             {comparison.map((item, index) => (
-              <div key={index} className={`grid grid-cols-3 p-5 items-center ${index % 2 === 0 ? 'bg-card/25' : 'bg-card/10'}`}>
-                <div className="text-foreground/70 text-sm lg:text-base">{item.feature}</div>
+              <div key={index} className={`grid grid-cols-[1.8fr_1fr_1fr] p-4 sm:p-5 items-center ${index % 2 === 0 ? 'bg-card/25' : 'bg-card/10'}`}>
+                <div className="text-foreground/70 text-xs sm:text-sm lg:text-base font-sans">{item.feature}</div>
                 <div className="flex justify-center">
-                  <X className="w-5 h-5 text-destructive/50" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5 text-destructive/50" />
                 </div>
                 <div className="flex justify-center">
-                  <Check className="w-5 h-5 text-emerald" />
+                  <Check className="w-4 h-4 sm:w-5 sm:h-5 text-emerald" />
                 </div>
               </div>
             ))}

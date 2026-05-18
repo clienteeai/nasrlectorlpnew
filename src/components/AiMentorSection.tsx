@@ -287,15 +287,15 @@ Keep learning with structure, log your entries, and protect your capital!`;
               {messages.map((msg, i) => (
                 <div 
                   key={i} 
-                  className={`flex gap-4 max-w-[85%] ${msg.sender === "user" ? "ml-auto flex-row-reverse" : ""}`}
+                  className={`flex gap-2 sm:gap-4 max-w-[92%] sm:max-w-[85%] ${msg.sender === "user" ? "ml-auto flex-row-reverse" : ""}`}
                 >
                   {/* Avatar */}
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border ${
+                  <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center shrink-0 border ${
                     msg.sender === "user" 
                       ? "bg-gold/10 border-gold/35 text-gold" 
                       : "bg-navy border-border/60 text-gold-light"
                   }`}>
-                    {msg.sender === "user" ? <User className="w-4 h-4" /> : <Cpu className="w-4 h-4" />}
+                    {msg.sender === "user" ? <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Cpu className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                   </div>
 
                   {/* Bubble */}
@@ -331,7 +331,7 @@ Keep learning with structure, log your entries, and protect your capital!`;
             </div>
 
             {/* Input Bar - NOW FULLY INTERACTIVE & OPERATIONAL */}
-            <div className="bg-navy-light/95 border-t border-border/50 px-6 py-4 flex items-center gap-4 z-10">
+            <div className="bg-navy-light/95 border-t border-border/50 px-4 sm:px-6 py-4 flex items-center gap-2 sm:gap-4 z-10">
               <input
                 type="text"
                 value={customInput}
@@ -340,7 +340,7 @@ Keep learning with structure, log your entries, and protect your capital!`;
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSendCustomMessage();
                 }}
-                placeholder={isTyping ? "AI Mentor is analyzing your prompt..." : "Ask the AI Mentor anything (e.g. 'What is risk sizing?', 'Explain support')..."}
+                placeholder={isTyping ? "AI Mentor is analyzing..." : "Ask AI Mentor about trading, risk size..."}
                 className="flex-1 bg-background/50 border border-border/40 rounded-xl px-4 py-3 text-xs text-foreground/80 placeholder-foreground/40 font-sans outline-none focus:border-gold/50 transition-all duration-300"
               />
               <button 
