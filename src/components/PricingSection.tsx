@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, AlertCircle } from "lucide-react";
 
 interface PricingTier {
   name: string;
   tagline: string;
   monthlyPrice: number;
   annualPrice: number;
-  isLifetime?: boolean;
-  lifetimePrice?: number;
+  isFree?: boolean;
   popular: boolean;
   features: string[];
   ctaText: string;
@@ -16,20 +15,39 @@ interface PricingTier {
 
 const PRICING_TIERS: PricingTier[] = [
   {
+    name: "Lector Free",
+    tagline: "Start free. Unlock premium academy lessons and roadmap videos by utilizing broker services.",
+    monthlyPrice: 0,
+    annualPrice: 0,
+    isFree: true,
+    popular: false,
+    features: [
+      "1 Custom AI Learning Roadmap",
+      "Introductory Academy Videos (Level 1)",
+      "Standard Trading Terms Glossary",
+      "AI Mentor access (3 queries per day)",
+      "Unlock Level 2 & 3 via Broker Account Activity",
+      "Unlock unlimited AI queries via active trading"
+    ],
+    ctaText: "Start For Free",
+    ctaLink: "https://trade.nasrlector.com/landing?signup=1"
+  },
+  {
     name: "Lector Pro",
     tagline: "Comprehensive white-labeled AI-guided training system.",
     monthlyPrice: 490,
     annualPrice: 390,
-    popular: false,
+    popular: true,
     features: [
       "Full Adaptive Academy Curriculum (Levels 1-3)",
       "Unlimited AI Learning Roadmaps",
-      "24/7 Dedicated AI Mentor Support",
+      "24/7 Dedicated AI Mentor Support (Fast Response)",
       "Progression-Locked Skill Quizzes",
       "Interactive Trading Diary & Logbook",
-      "Smart Risk & Lot Size Calculators"
+      "Smart Risk & Lot Size Calculators",
+      "Free access by opening a supported broker account"
     ],
-    ctaText: "Enroll Now",
+    ctaText: "Unlock Pro Access",
     ctaLink: "https://trade.nasrlector.com/landing?signup=1"
   },
   {
@@ -37,7 +55,7 @@ const PRICING_TIERS: PricingTier[] = [
     tagline: "Complete system access with direct daily diagnostics and setups.",
     monthlyPrice: 990,
     annualPrice: 790,
-    popular: true,
+    popular: false,
     features: [
       "Everything in Lector Pro",
       "Priority AI Mentor Core (Deep Diagnostics)",
@@ -47,25 +65,6 @@ const PRICING_TIERS: PricingTier[] = [
       "VIP General Lounge access"
     ],
     ctaText: "Unlock VIP Experience",
-    ctaLink: "https://trade.nasrlector.com/landing?signup=1"
-  },
-  {
-    name: "Lector Lifetime",
-    tagline: "Infinite institutional pass to all current and future releases.",
-    monthlyPrice: 4900,
-    annualPrice: 4900,
-    isLifetime: true,
-    lifetimePrice: 4900,
-    popular: false,
-    features: [
-      "Lifetime Untangled Academy License",
-      "All Future AI Roadmap Upgrades Free",
-      "Private Institutional Discord Access",
-      "VIP Live Trading Room Seats (Lifetime)",
-      "Personalized 1-on-1 AI Training Plan Tuning",
-      "Priority Direct Support Hotlines"
-    ],
-    ctaText: "Get Lifetime License",
     ctaLink: "https://trade.nasrlector.com/landing?signup=1"
   }
 ];
@@ -85,14 +84,14 @@ export default function PricingSection() {
         <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-24">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/20 bg-gold/5 mb-4 animate-pulse">
             <Sparkles className="w-3.5 h-3.5 text-gold-light" />
-            <span className="text-xs font-semibold text-gold-light tracking-luxury uppercase">PRICING PACKAGES</span>
+            <span className="text-xs font-semibold text-gold-light tracking-luxury uppercase">ACADEMY PLANS</span>
           </div>
           <h2 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6">
             Choose Your Path.<br />
             <span className="text-gradient-gold">Accelerate Your Mastery.</span>
           </h2>
           <p className="text-lg text-foreground/75 font-sans leading-relaxed">
-            Select the professional plan tailored to your trading commitment and financial growth targets.
+            Select the professional plan tailored to your trading status. Start for free to map your skills, or unlock premium features through broker active trading.
           </p>
 
           {/* Interactive Billing Toggle */}
@@ -125,10 +124,8 @@ export default function PricingSection() {
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 items-stretch">
           {PRICING_TIERS.map((tier) => {
-            const isLifetime = tier.isLifetime;
-            const price = isLifetime 
-              ? tier.lifetimePrice 
-              : (billingCycle === "annual" ? tier.annualPrice : tier.monthlyPrice);
+            const isFree = tier.isFree;
+            const price = isFree ? 0 : (billingCycle === "annual" ? tier.annualPrice : tier.monthlyPrice);
             
             return (
               <div
@@ -159,21 +156,27 @@ export default function PricingSection() {
                   {/* Price */}
                   <div className="mb-8 flex items-baseline gap-1">
                     <span className="text-5xl font-mono font-bold tracking-tight text-foreground">
-                      ${price?.toLocaleString()}
+                      {isFree ? "Free" : `$${price?.toLocaleString()}`}
                     </span>
-                    <span className="text-sm text-foreground/45 font-sans font-medium">
-                      {isLifetime ? " one-time" : " / month"}
-                    </span>
+                    {!isFree ? (
+                      <span className="text-sm text-foreground/45 font-sans font-medium">
+                        / month
+                      </span>
+                    ) : (
+                      <span className="text-xs text-gold/80 font-semibold font-mono tracking-wide bg-gold/5 border border-gold/10 px-2 py-0.5 rounded ml-2">
+                        NEVER PAY
+                      </span>
+                    )}
                   </div>
 
-                  {billingCycle === "annual" && !isLifetime && (
+                  {billingCycle === "annual" && !isFree && (
                     <div className="text-xs text-gold/80 font-semibold mb-6 bg-gold/5 border border-gold/10 rounded py-1 px-2.5 inline-block font-mono">
                       Billed annually (Save ${(tier.monthlyPrice - tier.annualPrice) * 12}/year)
                     </div>
                   )}
-                  {isLifetime && (
+                  {isFree && (
                     <div className="text-xs text-emerald-400 font-semibold mb-6 bg-emerald-500/5 border border-emerald-500/10 rounded py-1 px-2.5 inline-block font-mono">
-                      Unlimited access, never billed again
+                      Unlock advanced levels through trading activity
                     </div>
                   )}
 
@@ -210,8 +213,16 @@ export default function PricingSection() {
           })}
         </div>
 
+        {/* Sales Closing Tip Banner */}
+        <div className="mt-12 p-4 rounded-xl border border-gold/25 bg-gold/[0.03] backdrop-blur-sm max-w-3xl mx-auto flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+          <p className="text-xs text-foreground/75 font-sans leading-relaxed">
+            <strong className="text-gold font-bold">Broker Economy Integration:</strong> Registering a live trading account with our partner broker instantly unlocks Lector Pro access completely free of charge. Trading activity builds academy experience points (XP) to unlock advanced modules, simulated diagnostic terminals, and elite webinar seats automatically.
+          </p>
+        </div>
+
         {/* Footnote Disclaimer */}
-        <div className="text-center mt-12 text-xs text-foreground/45 max-w-xl mx-auto font-sans">
+        <div className="text-center mt-8 text-xs text-foreground/45 max-w-xl mx-auto font-sans">
           All subscriptions are subject to Nasr Lector white-label academy terms. For direct corporate licensing or institutional team access, please contact integrations support.
         </div>
 

@@ -7,6 +7,9 @@ import Footer from "@/components/Footer";
 import MarketTicker from "@/components/MarketTicker";
 import PricingSection from "@/components/PricingSection";
 import MarketsExplorer from "@/components/MarketsExplorer";
+import AiMentorSection from "@/components/AiMentorSection";
+import SyllabusSection from "@/components/SyllabusSection";
+
 
 
 
@@ -703,6 +706,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* INTERACTIVE AI MENTOR TERMINAL */}
+      <AiMentorSection />
+
       {/* WHAT USERS LEARN */}
       <section className="py-28 lg:py-36 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.02] to-transparent" />
@@ -748,6 +754,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* DETAILED CURRICULUM SYLLABUS */}
+      <SyllabusSection />
 
       {/* MARKETS EXPLORER TERMINAL */}
       <MarketsExplorer />
