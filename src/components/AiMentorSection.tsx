@@ -113,7 +113,25 @@ export default function AiMentorSection() {
     let aiResponse = "";
     const query = userText.toLowerCase();
 
-    if (query.includes("loss") || query.includes("lose") || query.includes("revenge") || query.includes("emotional") || query.includes("drawdown") || query.includes("angry")) {
+    // Profanity list for trigger matching
+    const profanityList = ["fuck", "shit", "bitch", "cunt", "asshole", "bastard"];
+    const containsProfanity = profanityList.some(word => query.includes(word));
+
+    // Exclusive trading topic keywords
+    const tradingKeywords = [
+      "trade", "trading", "forex", "crypto", "stock", "market", "loss", "lose", 
+      "revenge", "emotional", "drawdown", "angry", "risk", "size", "lot", "leverage", 
+      "math", "support", "resistance", "liquidity", "smart money", "breakout", 
+      "order", "backtest", "technical", "fund", "pip", "chart", "price", "money", 
+      "asset", "margin", "pips", "hello", "hi", "hey", "who are you", "help"
+    ];
+    const isTradingRelated = tradingKeywords.some(keyword => query.includes(keyword));
+
+    if (containsProfanity) {
+      aiResponse = "Yeah, thank you, you too.";
+    } else if (!isTradingRelated) {
+      aiResponse = "I am programmed to discuss only trading strategy, risk management, and market psychology. Please ask a trading-related question.";
+    } else if (query.includes("loss") || query.includes("lose") || query.includes("revenge") || query.includes("emotional") || query.includes("drawdown") || query.includes("angry")) {
       aiResponse = `Taking sequential losses triggers your emotional amygdala, releasing adrenaline and cortisol. This locks you in a "fight or flight" loop, leading directly to **Revenge Trading**.
 
 ### 🧠 Tactical Reset Protocol:
@@ -251,7 +269,7 @@ Keep learning with structure, log your entries, and protect your capital!`;
                 <div>
                   <h4 className="text-sm font-bold text-foreground flex items-center gap-1.5">
                     AI Mentor Core 
-                    <span className="text-[9px] font-bold text-navy bg-gold/90 px-1.5 py-0.2 rounded font-mono">ACTIVE V2.0</span>
+                    <span className="text-[9px] font-bold text-[#070b14] bg-gold/90 px-1.5 py-0.2 rounded font-mono">ACTIVE V2.0</span>
                   </h4>
                   <p className="text-[10px] text-foreground/45 font-mono">ESTABLISHED WHITE-LABEL DISCIPLINE ASSISTANT</p>
                 </div>
@@ -283,8 +301,8 @@ Keep learning with structure, log your entries, and protect your capital!`;
                   {/* Bubble */}
                   <div className={`p-4 rounded-2xl relative ${
                     msg.sender === "user"
-                      ? "bg-navy text-foreground border border-gold/15"
-                      : "bg-[#0b0c10]/90 text-foreground/90 border border-border/40"
+                      ? "bg-gold/10 text-foreground border border-gold/25"
+                      : "bg-card text-foreground border border-border/60"
                   }`}>
                     {/* Text Render with line breaks support */}
                     <div className="text-sm leading-relaxed whitespace-pre-line font-medium select-text">
@@ -303,7 +321,7 @@ Keep learning with structure, log your entries, and protect your capital!`;
                   <div className="w-9 h-9 rounded-lg bg-navy border border-border/60 text-gold-light flex items-center justify-center shrink-0">
                     <Cpu className="w-4 h-4" />
                   </div>
-                  <div className="p-4 rounded-2xl bg-[#0b0c10]/90 border border-border/40 flex items-center gap-1.5">
+                  <div className="p-4 rounded-2xl bg-card border border-border/60 flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-gold/70 animate-bounce" style={{ animationDelay: "0ms" }} />
                     <span className="w-2 h-2 rounded-full bg-gold/70 animate-bounce" style={{ animationDelay: "150ms" }} />
                     <span className="w-2 h-2 rounded-full bg-gold/70 animate-bounce" style={{ animationDelay: "300ms" }} />
@@ -331,7 +349,7 @@ Keep learning with structure, log your entries, and protect your capital!`;
                 className={`p-3 rounded-xl transition-all duration-300 flex items-center justify-center ${
                   !customInput.trim() || isTyping
                     ? "bg-gold/10 text-gold/30 cursor-not-allowed"
-                    : "bg-gradient-gold text-navy shadow-md shadow-gold/20 hover:scale-105"
+                    : "bg-gradient-gold text-[#070b14] font-extrabold shadow-md shadow-gold/20 hover:scale-105"
                 }`}
               >
                 <Send className="w-4 h-4" />

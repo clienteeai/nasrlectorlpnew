@@ -52,6 +52,101 @@ export default function BlogPage() {
     return matchesSearch && matchesCategory;
   });
 
+  const KEYWORD_MAP: { [keyword: string]: string } = {
+    "order block": "mastering-institutional-order-blocks-on-eur-usd-mapping-smart-money-entries",
+    "order blocks": "mastering-institutional-order-blocks-on-eur-usd-mapping-smart-money-entries",
+    "liquidity sweep": "identifying-liquidity-sweeps-below-swing-lows-a-practical-stop-hunt-strategy",
+    "liquidity sweeps": "identifying-liquidity-sweeps-below-swing-lows-a-practical-stop-hunt-strategy",
+    "revenge trading": "conquering-revenge-trading-how-to-reset-cortisol-levels-after-a-loss",
+    "emotional discipline": "conquering-revenge-trading-how-to-reset-cortisol-levels-after-a-loss",
+    "leverage": "understanding-leverage-how-to-prevent-margin-calls-on-high-volatility-feeds",
+    "stop loss": "stop-loss-invalidation-zones-sizing-trades-for-structural-rejection-points",
+    "stop losses": "stop-loss-invalidation-zones-sizing-trades-for-structural-rejection-points",
+    "sizing calculator": "standard-lots-vs-mini-lots-vs-micro-lots-the-sizing-calculator-guide",
+    "risk management": "the-mathematics-of-1-risk-how-to-build-your-first-sizing-roadmap",
+    "forex": "interest-rate-differentials-how-fed-and-ecb-macro-decisions-drive-forex-trends",
+    "crypto": "crypto-liquidity-sweeps-how-high-beta-crypto-exchanges-raid-stop-losses",
+    "cryptocurrency": "crypto-liquidity-sweeps-how-high-beta-crypto-exchanges-raid-stop-losses",
+    "stocks": "corporate-earnings-releases-hedging-volatility-and-sizing-stocks-positions-safely",
+    "stock": "corporate-earnings-releases-hedging-volatility-and-sizing-stocks-positions-safely"
+  };
+
+  const parseKeywords = (plainText: string) => {
+    const keywords = Object.keys(KEYWORD_MAP).sort((a, b) => b.length - a.length);
+    const escaped = keywords.map(kw => kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const regex = new RegExp(`\\b(${escaped.join('|')})\\b`, 'gi');
+    const tokens = plainText.split(regex);
+
+    return tokens.map((token, idx) => {
+      const lowerToken = token.toLowerCase();
+      if (KEYWORD_MAP[lowerToken]) {
+        const slug = KEYWORD_MAP[lowerToken];
+        // Do not link an article to itself
+        if (selectedArticle && selectedArticle.slug === slug) {
+          return token;
+        }
+        return (
+          <button
+            key={idx}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const target = articles.find((a) => a.slug === slug);
+              if (target) {
+                setSelectedArticle(target);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className="text-gold font-normal hover:underline cursor-pointer border-b border-dashed border-gold/40 mx-0.5 inline"
+          >
+            {token}
+          </button>
+        );
+      }
+      return token;
+    });
+  };
+
+  const renderParagraphText = (text: string) => {
+    // Regex splits by both bold markdown "**text**" and link markdown "[text](#slug)"
+    const regex = /(\*\*.*?\*\*|\[.*?\]\(#.*?\))/g;
+    const parts = text.split(regex);
+    
+    return parts.map((part, index) => {
+      if (part.startsWith("**") && part.endsWith("**")) {
+        const boldText = part.slice(2, -2);
+        return <strong key={index} className="font-extrabold text-foreground">{parseKeywords(boldText)}</strong>;
+      }
+      
+      if (part.startsWith("[") && part.includes("](#")) {
+        const match = part.match(/\[(.*?)\]\(#(.*?)\)/);
+        if (match) {
+          const linkText = match[1];
+          const slug = match[2];
+          return (
+            <button
+              key={index}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const target = articles.find((a) => a.slug === slug);
+                if (target) {
+                  setSelectedArticle(target);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+              className="text-gold font-normal hover:underline cursor-pointer border-b border-dashed border-gold/40 mx-0.5 inline"
+            >
+              {linkText}
+            </button>
+          );
+        }
+      }
+      
+      return <span key={index}>{parseKeywords(part)}</span>;
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background pt-24">
       {/* Real-time Moving Market Ticker at absolute top */}
@@ -69,7 +164,7 @@ export default function BlogPage() {
             <span className="text-xs font-semibold text-gold tracking-luxury uppercase">EDUCATIONAL WIRE</span>
           </div>
           <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-4">
-            Nasr Lector <span className="text-gradient-gold">SEO Academy</span>
+            NASR Lector <span className="text-gradient-gold">Blog</span>
           </h1>
           <p className="text-base text-foreground/60 font-sans max-w-2xl mx-auto">
             Browse our comprehensive, search-engine-indexed library of 100+ structural price-action articles, math-risk sizing tutorials, and clinical trading psychology logs.
@@ -116,9 +211,11 @@ export default function BlogPage() {
             </div>
 
             {/* Parsed Educational Markdown Content */}
-            <div className="prose prose-lg prose-invert max-w-none text-foreground/80 font-sans leading-relaxed space-y-6">
-              {selectedArticle.content.split("\n\n").map((paragraph, index) => {
-                const trimmed = paragraph.trim();
+            <div className="prose prose-lg max-w-none text-foreground/80 font-sans leading-relaxed space-y-6">
+              {selectedArticle.content.split("\n").map((line, index) => {
+                const trimmed = line.trim();
+                if (!trimmed) return null;
+
                 if (trimmed.startsWith("# ")) {
                   return <h1 key={index} className="text-3xl font-bold font-serif text-foreground mt-8 mb-4">{trimmed.replace("# ", "")}</h1>;
                 }
@@ -130,23 +227,19 @@ export default function BlogPage() {
                 }
                 if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
                   return (
-                    <ul key={index} className="list-disc pl-6 space-y-2 text-foreground/75 my-4">
-                      {trimmed.split("\n").map((li, idx) => (
-                        <li key={idx}>{li.replace(/^[-*]\s+/, "")}</li>
-                      ))}
+                    <ul key={index} className="list-disc pl-6 space-y-2 text-foreground/75 my-2">
+                      <li>{renderParagraphText(trimmed.replace(/^[-*]\s+/, ""))}</li>
                     </ul>
                   );
                 }
                 if (/^\d+\.\s+/.test(trimmed)) {
                   return (
-                    <ol key={index} className="list-decimal pl-6 space-y-2 text-foreground/75 my-4">
-                      {trimmed.split("\n").map((li, idx) => (
-                        <li key={idx}>{li.replace(/^\d+\.\s+/, "")}</li>
-                      ))}
+                    <ol key={index} className="list-decimal pl-6 space-y-2 text-foreground/75 my-2">
+                      <li>{renderParagraphText(trimmed.replace(/^\d+\.\s+/, ""))}</li>
                     </ol>
                   );
                 }
-                return <p key={index} className="text-foreground/80 leading-relaxed">{paragraph}</p>;
+                return <p key={index} className="text-foreground/80 leading-relaxed mb-4">{renderParagraphText(trimmed)}</p>;
               })}
             </div>
 
@@ -179,7 +272,7 @@ export default function BlogPage() {
                     onClick={() => setActiveCategory(cat)}
                     className={`px-4 py-2 text-xs font-bold rounded-full transition-all duration-300 uppercase tracking-wider border ${
                       activeCategory === cat
-                        ? "bg-gradient-gold text-white border-transparent"
+                        ? "bg-gradient-gold text-[#070b14] font-extrabold border-transparent"
                         : "border-border/50 text-foreground/75 hover:border-gold/30 hover:text-gold"
                     }`}
                   >

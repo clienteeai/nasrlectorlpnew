@@ -262,6 +262,19 @@
 }
 
 @layer utilities {
+  .bg-gradient-gold {
+    background: linear-gradient(135deg, hsl(38 42% 48%), hsl(35 48% 38%)) !important;
+  }
+  .bg-gradient-gold-shine {
+    background: linear-gradient(135deg, hsl(38 42% 48%), hsl(40 45% 58%), hsl(38 42% 48%)) !important;
+  }
+  .bg-gradient-emerald {
+    background: linear-gradient(135deg, hsl(160 50% 36%), hsl(160 45% 46%)) !important;
+  }
+  .bg-gradient-navy {
+    background: linear-gradient(180deg, hsl(40 25% 98%), hsl(40 20% 96%)) !important;
+  }
+
   /* Animation delays */
   .animation-delay-200 {
     animation-delay: 200ms;

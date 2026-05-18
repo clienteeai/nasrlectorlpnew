@@ -21,14 +21,14 @@ const INITIAL_EXPLORER_ASSETS: MarketAsset[] = [
   { 
     symbol: "NVDA", 
     name: "NVIDIA Corp.", 
-    price: 128.45, 
-    change: 2.34, 
-    changePercent: 1.85, 
-    high: 130.20, 
-    low: 126.10, 
+    price: 225.32, 
+    change: -10.36, 
+    changePercent: -4.40, 
+    high: 228.40, 
+    low: 222.10, 
     volume: 48900000, 
-    ma50: 122.50, 
-    ma200: 110.80, 
+    ma50: 215.80, 
+    ma200: 185.50, 
     type: "stocks",
     description: "NVIDIA is the global leader in AI hardware and high-performance computation. Excellent for retail momentum plays and practicing dynamic breakout setups on your AI roadmap." 
   },
@@ -286,7 +286,7 @@ export default function MarketsExplorer() {
                   }}
                   className={`flex-1 py-2.5 rounded-lg font-bold text-sm tracking-wider uppercase transition-all duration-300 ${
                     activeTab === tab
-                      ? "bg-gradient-gold text-navy shadow-md shadow-gold/10"
+                      ? "bg-gradient-gold text-[#070b14] font-extrabold shadow-md shadow-gold/10"
                       : "text-foreground/50 hover:text-foreground/80"
                   }`}
                 >
@@ -430,7 +430,7 @@ export default function MarketsExplorer() {
                   href="https://trade.nasrlector.com/landing?signup=1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full text-center py-3.5 rounded-xl bg-gradient-gold text-navy font-bold tracking-luxury text-xs shadow-md shadow-gold/15 hover:shadow-gold/25 transition-all duration-300 flex items-center justify-center gap-1.5"
+                  className="w-full text-center py-3.5 rounded-xl bg-gradient-gold text-[#070b14] font-extrabold tracking-luxury text-xs shadow-md shadow-gold/15 hover:shadow-gold/25 transition-all duration-300 flex items-center justify-center gap-1.5"
                 >
                   Start Backtesting {selectedAsset.symbol}
                 </a>

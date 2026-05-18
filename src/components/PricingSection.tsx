@@ -164,7 +164,7 @@ export default function PricingSection() {
               >
                 {/* Popular Badge */}
                 {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gold border border-gold-light text-navy font-bold text-xs tracking-luxury uppercase z-20">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gold border border-gold-light text-[#070b14] font-extrabold text-xs tracking-luxury uppercase z-20">
                     <Sparkles className="w-3.5 h-3.5 fill-current" />
                     MOST RECOMMENDED
                   </div>
@@ -232,7 +232,7 @@ export default function PricingSection() {
                     rel="noopener noreferrer"
                     className={`w-full text-center py-3.5 rounded-xl font-bold tracking-luxury text-xs transition-all duration-300 flex items-center justify-center gap-2 ${
                       tier.popular
-                        ? "bg-gradient-gold text-navy shadow-lg shadow-gold/20 hover:shadow-gold/35 hover:-translate-y-0.5"
+                        ? "bg-gradient-gold text-[#070b14] font-extrabold shadow-lg shadow-gold/20 hover:shadow-gold/35 hover:-translate-y-0.5"
                         : "bg-navy-lighter text-foreground border border-border hover:border-gold/40 hover:-translate-y-0.5"
                     }`}
                   >

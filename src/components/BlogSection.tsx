@@ -243,7 +243,7 @@ export default function BlogSection() {
               <span className="text-[10px] text-foreground/45 font-mono uppercase tracking-wider">Nasr Lector White-Label Academy © 2026</span>
               <button
                 onClick={() => setSelectedArticle(null)}
-                className="px-5 py-2 rounded-lg bg-gradient-gold text-navy font-bold text-xs hover:shadow-gold/10 shadow transition-all duration-300"
+                className="px-5 py-2 rounded-lg bg-gradient-gold text-[#070b14] font-extrabold text-xs hover:shadow-gold/10 shadow transition-all duration-300"
               >
                 Close Reader
               </button>

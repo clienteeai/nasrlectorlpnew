@@ -12,7 +12,7 @@ interface TickerItem {
 }
 
 const ACTIVE_ASSETS: TickerItem[] = [
-  { symbol: "NVDA", name: "NVIDIA", price: 128.45, change: 2.34, changePercent: 1.85, type: "stock" },
+  { symbol: "NVDA", name: "NVIDIA", price: 225.32, change: -10.36, changePercent: -4.40, type: "stock" },
   { symbol: "BTCUSD", name: "Bitcoin", price: 76919.11, change: -495.80, changePercent: -0.64, type: "crypto" },
   { symbol: "EURUSD", name: "EUR/USD", price: 1.1643, change: 0.0017, changePercent: 0.15, type: "forex" },
   { symbol: "TSLA", name: "Tesla", price: 422.24, change: -21.06, changePercent: -4.75, type: "stock" },

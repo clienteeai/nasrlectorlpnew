@@ -417,7 +417,7 @@ export default function HeroSection() {
                       boxShadow: '0 0 40px rgba(212,175,55,0.5), 0 8px 30px rgba(0,0,0,0.4)',
                     }}
                   >
-                    <Play className="w-8 h-8 text-navy ml-1" fill="currentColor" />
+                    <Play className="w-8 h-8 text-[#070b14] ml-1" fill="currentColor" />
                   </div>
                   
                   {/* Hover overlay */}

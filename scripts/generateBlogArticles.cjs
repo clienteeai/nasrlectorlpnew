@@ -129,22 +129,57 @@ const ARTICLE_TEMPLATES = [
   { title: "The NYC Exchange Closing Cross: Sizing Volatility In the Final NY 10 Minutes", category: "Stocks & Indices" }
 ];
 
+// Dynamic Link-Building SEO keywords map
+const KEY_TOPICS = [
+  { term: "1% Risk", slug: "the-mathematics-of-1-risk-how-to-build-your-first-sizing-roadmap" },
+  { term: "position sizing", slug: "the-mathematics-of-1-risk-how-to-build-your-first-sizing-roadmap" },
+  { term: "Revenge Trading", slug: "conquering-revenge-trading-how-to-reset-cortisol-levels-after-a-loss" },
+  { term: "emotional discipline", slug: "conquering-revenge-trading-how-to-reset-cortisol-levels-after-a-loss" },
+  { term: "Order Blocks", slug: "mastering-institutional-order-blocks-on-eur-usd-mapping-smart-money-entries" },
+  { term: "institutional order blocks", slug: "mastering-institutional-order-blocks-on-eur-usd-mapping-smart-money-entries" },
+  { term: "Liquidity Sweeps", slug: "crypto-liquidity-sweeps-how-high-beta-crypto-exchanges-raid-stop-losses" },
+  { term: "stop losses", slug: "the-mathematics-of-1-risk-how-to-build-your-first-sizing-roadmap" },
+  { term: "stop loss", slug: "the-mathematics-of-1-risk-how-to-build-your-first-sizing-roadmap" },
+  { term: "S&P 500", slug: "slicing-the-s-p-500-ny-open-mapping-order-flow-in-the-first-30-minutes" },
+  { term: "Nasdaq", slug: "nasdaq-100-liquidity-pools-trading-nyc-session-stop-raids-on-tech-giants" },
+  { term: "volatility", slug: "understanding-leverage-how-to-prevent-margin-calls-on-high-volatility-feeds" },
+  { term: "Leverage", slug: "understanding-leverage-how-to-prevent-margin-calls-on-high-volatility-feeds" }
+];
+
+function applyLinkBuilding(content, currentSlug) {
+  let newContent = content;
+  
+  KEY_TOPICS.forEach(topic => {
+    if (topic.slug === currentSlug) return;
+    
+    const termRegex = new RegExp(`\\b(${topic.term})\\b`, 'i');
+    const match = newContent.match(termRegex);
+    
+    if (match) {
+      const word = match[1];
+      const index = match.index;
+      
+      const charBefore = newContent.substring(index - 1, index);
+      const substringAfter = newContent.substring(index + word.length, index + word.length + 3);
+      
+      if (charBefore !== '[' && !substringAfter.includes('(#')) {
+        newContent = newContent.substring(0, index) + 
+                     `[${word}](#${topic.slug})` + 
+                     newContent.substring(index + word.length);
+      }
+    }
+  });
+  
+  return newContent;
+}
+
 async function generateArticle(item, index) {
   const slug = item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   console.log(`[${index + 1}/100] Generating: "${item.title}"...`);
 
   if (!API_KEY) {
     // Local pre-seed fallback
-    return {
-      id: index + 1,
-      slug,
-      title: item.title,
-      category: item.category,
-      date: new Date(Date.now() - index * 24 * 60 * 60 * 1000).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' }),
-      readTime: "8 min read",
-      author: "Nasr Lector Elite",
-      description: `Learn how to master ${item.title} to optimize your personalized AI Trading Roadmap.`,
-      content: `# ${item.title}
+    const fallbackText = `# ${item.title}
       
 Smart money operations require structured understanding, strict math risk rules, and clinical emotional discipline.
 
@@ -163,7 +198,18 @@ Market makers match orders at specific resting liquidity pools (BSL and SSL). Wh
 Emotional self-discipline is what distinguishes professional traders from retail gamblers:
 1. **The Amygdala Cool-down:** Stop trading immediately after two consecutive losses. Leave the desk for 15 minutes.
 2. **Commit to the Log:** Document every entry, risk size, exit, and emotional state inside your **Nasr Lector AI Diary**.
-3. **Execute Without Bias:** Treat each trade as a single data point in a sequence of 100 setup events.`
+3. **Execute Without Bias:** Treat each trade as a single data point in a sequence of 100 setup events.`;
+
+    return {
+      id: index + 1,
+      slug,
+      title: item.title,
+      category: item.category,
+      date: new Date(Date.now() - index * 24 * 60 * 60 * 1000).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' }),
+      readTime: "8 min read",
+      author: "Nasr Lector Elite",
+      description: `Learn how to master ${item.title} to optimize your personalized AI Trading Roadmap.`,
+      content: applyLinkBuilding(fallbackText, slug)
     };
   }
 
@@ -212,7 +258,7 @@ Emotional self-discipline is what distinguishes professional traders from retail
       readTime: `${Math.ceil(text.split(/\s+/).length / 200)} min read`,
       author: "Nasr Lector Elite",
       description: text.split("\n").find(l => l.trim().length > 50 && !l.includes("#"))?.substring(0, 160) + "..." || `Learn how to master ${item.title} inside our trading academy.`,
-      content: text
+      content: applyLinkBuilding(text, slug)
     };
   } catch (error) {
     console.error(`   [Error] Failed to generate: ${error.message}`);

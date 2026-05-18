@@ -43,7 +43,7 @@ interface Step {
 
 export default function HowItWorksSection({ steps }: { steps: Step[] }) {
   return (
-    <section className="py-28 lg:py-36 relative overflow-hidden" style={{ background: '#0a0a0d' }}>
+    <section className="py-28 lg:py-36 relative overflow-hidden bg-background">
       <FloatingParticles />
       
       <div className="container mx-auto px-4 lg:px-8 max-w-5xl relative z-10">

@@ -18,7 +18,7 @@ export default function Header() {
   const MENU_LINKS = [
     { name: "Home", href: "/" },
     { name: "Markets", href: "/markets" },
-    { name: "Syllabus", href: "/#syllabus" },
+    { name: "Syllabus", href: "/syllabus" },
     { name: "AI Mentor", href: "/ai-mentor" },
     { name: "Calendar", href: "/calendar" },
     { name: "Blog", href: "/blog" },
@@ -26,9 +26,6 @@ export default function Header() {
   ];
 
   const isActive = (path: string) => {
-    if (path.includes("#")) {
-      return location.pathname === "/" && location.hash === path.substring(1);
-    }
     return location.pathname === path;
   };
 
@@ -80,7 +77,7 @@ export default function Header() {
                   className="inline-flex items-center justify-center whitespace-nowrap rounded-full px-5 py-2.5 text-xs font-bold transition-all duration-300"
                   style={{ 
                     background: 'linear-gradient(135deg, hsl(40 42% 62%), hsl(38 45% 48%))',
-                    color: 'hsl(40 25% 98%)',
+                    color: '#070b14',
                     boxShadow: '0 0 20px rgba(212, 175, 55, 0.15)',
                   }}
                 >
@@ -147,7 +144,7 @@ export default function Header() {
                   className="text-center py-3 font-bold text-xs rounded-xl"
                   style={{ 
                     background: 'linear-gradient(135deg, hsl(40 42% 62%), hsl(38 45% 48%))',
-                    color: 'hsl(40 25% 98%)'
+                    color: '#070b14'
                   }}
                 >
                   Sign Up Free

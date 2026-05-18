@@ -13,8 +13,34 @@ import AiMentorPage from "./pages/AiMentorPage";
 import CalendarPage from "./pages/CalendarPage";
 import BlogPage from "./pages/BlogPage";
 import PricingPage from "./pages/PricingPage";
+import SyllabusPage from "./pages/SyllabusPage";
+
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const queryClient = new QueryClient();
+
+// Scroll helper to support both hash anchor scrolling and smooth page transitions
+const ScrollToHash = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const timer = setTimeout(() => {
+        const id = hash.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+
+  return null;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -22,6 +48,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToHash />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/markets" element={<MarketsPage />} />
@@ -29,6 +56,7 @@ const App = () => (
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/syllabus" element={<SyllabusPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route path="/risk-disclosure" element={<RiskDisclosure />} />

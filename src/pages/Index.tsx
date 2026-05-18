@@ -462,7 +462,7 @@ const Index = () => {
                       boxShadow: '0 0 50px rgba(212,175,55,0.7), 0 10px 40px rgba(0,0,0,0.5)',
                     }}
                   >
-                    <Play className="w-10 h-10 text-navy ml-1" fill="currentColor" />
+                    <Play className="w-10 h-10 text-[#070b14] ml-1" fill="currentColor" />
                   </div>
                 </div>
                 
@@ -477,7 +477,7 @@ const Index = () => {
       </section>
 
       {/* THE CORE PROBLEM */}
-      <section className="py-28 lg:py-36 relative overflow-hidden" style={{ background: '#0a0a0d' }}>
+      <section className="py-28 lg:py-36 relative overflow-hidden bg-background">
         {/* Video Background */}
         <div className="absolute inset-0">
           <video
@@ -485,11 +485,11 @@ const Index = () => {
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-40"
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.06] mix-blend-multiply"
           >
             <source src="/nasr-fixes-this-bg.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0d]/80 via-[#0a0a0d]/70 to-[#0a0a0d]/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background/90" />
         </div>
         <FloatingParticles />
         <div className="container mx-auto px-4 lg:px-8 max-w-5xl relative z-10">
@@ -611,19 +611,19 @@ const Index = () => {
       </section>
 
       {/* HOW THE AI WORKS */}
-      <section className="py-28 lg:py-36 relative overflow-hidden" style={{ background: '#0a0a0d' }}>
-        {/* Video Background - More Visible */}
+      <section className="py-28 lg:py-36 relative overflow-hidden bg-background">
+        {/* Video Background - Subtle Luxury */}
         <div className="absolute inset-0">
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-40"
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.06] mix-blend-multiply"
           >
             <source src="/ai-section-bg.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0d]/80 via-[#0a0a0d]/75 to-[#0a0a0d]/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/75 to-background/90" />
         </div>
         <FloatingParticles />
         <div className="container mx-auto px-4 lg:px-8 max-w-5xl relative z-10">
@@ -809,7 +809,7 @@ const Index = () => {
       </section>
 
       {/* WHO IT'S FOR */}
-      <section className="py-28 lg:py-36 relative" style={{ background: '#0a0a0d' }}>
+      <section className="py-28 lg:py-36 relative bg-background">
         <FloatingParticles />
         
         <div className="container mx-auto px-4 lg:px-8 max-w-5xl relative z-10">
