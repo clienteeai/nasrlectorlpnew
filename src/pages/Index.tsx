@@ -9,6 +9,8 @@ import PricingSection from "@/components/PricingSection";
 import MarketsExplorer from "@/components/MarketsExplorer";
 import AiMentorSection from "@/components/AiMentorSection";
 import SyllabusSection from "@/components/SyllabusSection";
+import MarketIntelligence from "@/components/MarketIntelligence";
+import BlogSection from "@/components/BlogSection";
 
 
 
@@ -761,11 +763,17 @@ const Index = () => {
       {/* MARKETS EXPLORER TERMINAL */}
       <MarketsExplorer />
 
+      {/* LIVE MARKET INTELLIGENCE NEWS FEED & ECONOMIC CALENDAR */}
+      <MarketIntelligence />
+
       {/* HOW IT WORKS - STEPS */}
       <HowItWorksSection steps={steps} />
 
       {/* SEE WHAT'S INSIDE */}
       <InsideLookSection />
+
+      {/* EDUCATIONAL ACADEMY BLOG & ARTICLES */}
+      <BlogSection />
 
       {/* TESTIMONIALS */}
       <section className="py-28 lg:py-36 relative overflow-hidden">

@@ -19,12 +19,13 @@ const policies = [
 ];
 
 const navItems = [
+  { name: "Markets", href: "#markets" },
+  { name: "Syllabus", href: "#syllabus" },
+  { name: "AI Mentor", href: "#ai-mentor" },
+  { name: "Pricing", href: "#pricing" },
+  { name: "Blog", href: "#blog" },
   { name: "Instruments", href: "#instruments", dropdown: instruments },
-  { name: "Platform", href: "#platform" },
-  { name: "Accounts", href: "#accounts" },
-  { name: "Trading events", href: "#events" },
   { name: "Policies", href: "#policies", dropdown: policies },
-  { name: "Nasr trade Academy", href: "#academy" },
 ];
 
 export default function Header() {

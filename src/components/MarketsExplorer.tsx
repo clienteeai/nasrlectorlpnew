@@ -13,23 +13,141 @@ interface MarketAsset {
   ma50: number;
   ma200: number;
   type: "stocks" | "crypto" | "forex";
+  description: string;
 }
 
 const INITIAL_EXPLORER_ASSETS: MarketAsset[] = [
   // Stocks
-  { symbol: "NVDA", name: "NVIDIA Corp.", price: 128.45, change: 2.34, changePercent: 1.85, high: 130.20, low: 126.10, volume: 48900000, ma50: 122.50, ma200: 110.80, type: "stocks" },
-  { symbol: "AAPL", name: "Apple Inc.", price: 300.23, change: 2.02, changePercent: 0.67, high: 303.20, low: 296.52, volume: 54800000, ma50: 266.18, ma200: 259.13, type: "stocks" },
-  { symbol: "TSLA", name: "Tesla Inc.", price: 422.24, change: -21.06, changePercent: -4.75, high: 434.66, low: 422.00, volume: 52600000, ma50: 386.77, ma200: 407.39, type: "stocks" },
-  { symbol: "MSFT", name: "Microsoft Corp.", price: 418.50, change: 3.20, changePercent: 0.77, high: 422.10, low: 415.80, volume: 22800000, ma50: 401.40, ma200: 395.20, type: "stocks" },
+  { 
+    symbol: "NVDA", 
+    name: "NVIDIA Corp.", 
+    price: 128.45, 
+    change: 2.34, 
+    changePercent: 1.85, 
+    high: 130.20, 
+    low: 126.10, 
+    volume: 48900000, 
+    ma50: 122.50, 
+    ma200: 110.80, 
+    type: "stocks",
+    description: "NVIDIA is the global leader in AI hardware and high-performance computation. Excellent for retail momentum plays and practicing dynamic breakout setups on your AI roadmap." 
+  },
+  { 
+    symbol: "AAPL", 
+    name: "Apple Inc.", 
+    price: 300.23, 
+    change: 2.02, 
+    changePercent: 0.67, 
+    high: 303.20, 
+    low: 296.52, 
+    volume: 54800000, 
+    ma50: 266.18, 
+    ma200: 259.13, 
+    type: "stocks",
+    description: "Apple represents institutional capital stability. Heavily utilized by algorithmic traders to study premium order blocks, support zones, and trading volume distributions." 
+  },
+  { 
+    symbol: "TSLA", 
+    name: "Tesla Inc.", 
+    price: 422.24, 
+    change: -21.06, 
+    changePercent: -4.75, 
+    high: 434.66, 
+    low: 422.00, 
+    volume: 52600000, 
+    ma50: 386.77, 
+    ma200: 407.39, 
+    type: "stocks",
+    description: "Tesla is a high-beta retail favorite with extreme speculative liquidity. Ideal for training in strict stop-loss rules, risk management ratios, and breakout structures." 
+  },
+  { 
+    symbol: "MSFT", 
+    name: "Microsoft Corp.", 
+    price: 418.50, 
+    change: 3.20, 
+    changePercent: 0.77, 
+    high: 422.10, 
+    low: 415.80, 
+    volume: 22800000, 
+    ma50: 401.40, 
+    ma200: 395.20, 
+    type: "stocks",
+    description: "Microsoft possesses massive enterprise SaaS and cloud revenues. Highly recommended for macro swing trading, horizontal key level entries, and volume cluster analysis." 
+  },
   
   // Crypto
-  { symbol: "BTCUSD", name: "Bitcoin USD", price: 76919.11, change: -495.80, changePercent: -0.64, high: 77414.91, low: 76684.37, volume: 28100000000, ma50: 75193.79, ma200: 81752.66, type: "crypto" },
-  { symbol: "ETHUSD", name: "Ethereum USD", price: 3450.80, change: 58.40, changePercent: 1.72, high: 3495.00, low: 3380.20, volume: 14500000000, ma50: 3120.40, ma200: 3280.90, type: "crypto" },
-  { symbol: "SOLUSD", name: "Solana USD", price: 84.76, change: -0.41, changePercent: -0.48, high: 85.32, low: 84.44, volume: 30400000, ma50: 85.77, ma200: 110.82, type: "crypto" },
+  { 
+    symbol: "BTCUSD", 
+    name: "Bitcoin USD", 
+    price: 76919.11, 
+    change: -495.80, 
+    changePercent: -0.64, 
+    high: 77414.91, 
+    low: 76684.37, 
+    volume: 28100000000, 
+    ma50: 75193.79, 
+    ma200: 81752.66, 
+    type: "crypto",
+    description: "Bitcoin is the ultimate digital asset. Strongly driven by spot ETF inflows and macroeconomic liquidity cycles. Excellent for studying extreme swing trading targets." 
+  },
+  { 
+    symbol: "ETHUSD", 
+    name: "Ethereum USD", 
+    price: 3450.80, 
+    change: 58.40, 
+    changePercent: 1.72, 
+    high: 3495.00, 
+    low: 3380.20, 
+    volume: 14500000000, 
+    ma50: 3120.40, 
+    ma200: 3280.90, 
+    type: "crypto",
+    description: "Ethereum is the primary smart-contract layer. Its price action directly reflects active gas fee burns, staking yields, and decentralized finance volume trends." 
+  },
+  { 
+    symbol: "SOLUSD", 
+    name: "Solana USD", 
+    price: 84.76, 
+    change: -0.41, 
+    changePercent: -0.48, 
+    high: 85.32, 
+    low: 84.44, 
+    volume: 30400000, 
+    ma50: 85.77, 
+    ma200: 110.82, 
+    type: "crypto",
+    description: "Solana represents ultra-fast, cheap transaction processing. A high-velocity retail asset that acts as an exceptional training ground for fast intraday scalp setups." 
+  },
   
   // Forex
-  { symbol: "EURUSD", name: "EUR / USD", price: 1.1643, change: 0.0017, changePercent: 0.15, high: 1.1645, low: 1.1608, volume: 54300, ma50: 1.1667, ma200: 1.1678, type: "forex" },
-  { symbol: "GBPUSD", name: "GBP / USD", price: 1.2540, change: -0.0008, changePercent: -0.06, high: 1.2590, low: 1.2515, volume: 49800, ma50: 1.2610, ma200: 1.2585, type: "forex" }
+  { 
+    symbol: "EURUSD", 
+    name: "EUR / USD", 
+    price: 1.1643, 
+    change: 0.0017, 
+    changePercent: 0.15, 
+    high: 1.1645, 
+    low: 1.1608, 
+    volume: 54300, 
+    ma50: 1.1667, 
+    ma200: 1.1678, 
+    type: "forex",
+    description: "The Euro vs US Dollar is the world's most liquid currency pair. Driven by EU-US interest rate differentials, CPI metrics, and Federal Reserve meetings." 
+  },
+  { 
+    symbol: "GBPUSD", 
+    name: "GBP / USD", 
+    price: 1.2540, 
+    change: -0.0008, 
+    changePercent: -0.06, 
+    high: 1.2590, 
+    low: 1.2515, 
+    volume: 49800, 
+    ma50: 1.2610, 
+    ma200: 1.2585, 
+    type: "forex",
+    description: "The British Pound vs US Dollar is highly volatile and reactive. Responds aggressively to Bank of England policy shifts and London session order flows." 
+  }
 ];
 
 export default function MarketsExplorer() {
@@ -135,7 +253,7 @@ export default function MarketsExplorer() {
           {/* Sync indicator */}
           <div className="flex items-center gap-3 self-start md:self-end">
             {lastUpdated && (
-              <span className="text-xs text-foreground/40 font-mono tracking-wide">
+              <span className="text-xs text-foreground/44 font-mono tracking-wide">
                 Updated: {lastUpdated}
               </span>
             )}
@@ -241,10 +359,16 @@ export default function MarketsExplorer() {
             </div>
 
             {/* Asset Headline */}
-            <div className="mb-8">
+            <div className="mb-6">
               <span className="text-[10px] font-bold tracking-luxury text-gold uppercase">SELECTED TERMINAL</span>
               <h4 className="text-2xl font-bold text-foreground mt-1">{selectedAsset.name}</h4>
               <p className="text-xs text-foreground/45 mt-1 font-mono uppercase tracking-wider">{selectedAsset.symbol} / USD Market Pair</p>
+            </div>
+
+            {/* Asset Live Info Description (Dynamic live-updating informative context) */}
+            <div className="mb-6 p-4 rounded-xl border border-gold/15 bg-gold/[0.03] text-xs leading-relaxed text-foreground/80 font-sans">
+              <strong className="text-gold font-bold uppercase block mb-1">Asset Intelligence & Role:</strong>
+              {selectedAsset.description}
             </div>
 
             {/* Key Metrics Dashboard */}
@@ -263,8 +387,8 @@ export default function MarketsExplorer() {
                   <div 
                     className="absolute top-0 bottom-0 bg-gradient-gold rounded-full"
                     style={{
-                      left: "15%",
-                      right: "25%"
+                      left: "20%",
+                      right: "30%"
                     }}
                   />
                 </div>

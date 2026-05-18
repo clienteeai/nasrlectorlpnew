@@ -10,17 +10,18 @@ interface MockMessage {
 const CONVERSATION_TEMPLATES = {
   risk: {
     question: "How do I mathematically size my lots for a 1% risk on EUR/USD?",
-    response: `To mathematically size your position and risk precisely **1.00%** of your capital, you must use the following structural formula:
+    response: `To mathematically size your position and risk precisely **1.00%** of your capital, you must use the following clear formula:
 
-$$\\text{Position Size (Lots)} = \\frac{\\text{Account Capital} \\times \\text{Risk \\%}}{\\text{Stop Loss (Pips)} \\times \\text{Pip Value}}$$
+Position Size (Lots) = [Account Capital × Target Risk %] / [Stop Loss (Pips) × Standard Pip Value]
 
 ### 📊 Practical Example Breakdown:
 1. **Your Capital:** $10,000 USD
-2. **Target Risk:** 1% ($100 USD maximum loss)
+2. **Target Risk:** 1% ($100 USD maximum loss limit)
 3. **Stop Loss distance:** 15 pips
 4. **EUR/USD Standard Pip Value:** $10 USD per standard lot
 
-$$\\text{Position Size} = \\frac{\\$10,000 \\times 0.01}{15 \\times \\$10} = \\frac{\\$100}{150} \\approx \\mathbf{0.67\\text{ Lots}}$$
+*Calculation:*
+Position Size = $100 / (15 pips × $10) = $100 / $150 = **0.67 Lots**
 
 ### ⚠️ Discipline Protocol:
 * Always verify broker spread adjustments before placing order entries.
@@ -99,7 +100,7 @@ export default function AiMentorSection() {
   }, [messages, isTyping]);
 
   return (
-    <section className="py-24 relative overflow-hidden bg-background border-t border-gold/10">
+    <section id="ai-mentor" className="py-24 relative overflow-hidden bg-background border-t border-gold/10">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[140px] pointer-events-none z-0" />
 
       <div className="container mx-auto px-4 lg:px-8 max-w-7xl relative z-10">
