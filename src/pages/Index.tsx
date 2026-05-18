@@ -5,6 +5,8 @@ import HowItWorksSection from "@/components/HowItWorksSection";
 import InsideLookSection from "@/components/InsideLookSection";
 import Footer from "@/components/Footer";
 import MarketTicker from "@/components/MarketTicker";
+import PricingSection from "@/components/PricingSection";
+
 
 // YouTube Video Popup Component
 const YouTubePopup = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
@@ -905,6 +907,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* PRICING SECTION */}
+      <PricingSection />
 
       {/* FINAL CTA */}
       <section id="start" className="py-28 lg:py-40 relative overflow-hidden">
