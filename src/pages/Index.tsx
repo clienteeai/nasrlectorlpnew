@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import InsideLookSection from "@/components/InsideLookSection";
 import Footer from "@/components/Footer";
+import MarketTicker from "@/components/MarketTicker";
 
 // YouTube Video Popup Component
 const YouTubePopup = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
@@ -367,8 +368,14 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* YouTube Popup */}
       <YouTubePopup isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/30" style={{ background: 'rgba(10, 10, 13, 0.92)', backdropFilter: 'blur(20px)' }}>
+      
+      {/* Real-time Moving Market Ticker at absolute top */}
+      <div className="fixed top-0 left-0 right-0 z-[60] h-11 bg-[#0a0a0d]">
+        <MarketTicker />
+      </div>
+
+      {/* Navigation - shifted top-11 to slide below the ticker */}
+      <nav className="fixed top-11 left-0 right-0 z-50 border-b border-border/30" style={{ background: 'rgba(10, 10, 13, 0.92)', backdropFilter: 'blur(20px)' }}>
         <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
           <div className="flex items-center justify-between h-16 lg:h-20">
             <div className="flex items-center gap-3">
@@ -398,8 +405,8 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* HERO SECTION */}
-      <section className="relative pt-32 lg:pt-40 pb-20 lg:pb-28 overflow-hidden min-h-screen flex items-center">
+      {/* HERO SECTION - adjusted padding-top to accommodate ticker + nav */}
+      <section className="relative pt-44 lg:pt-52 pb-20 lg:pb-28 overflow-hidden min-h-screen flex items-center">
         {/* Video Background - More Visible */}
         <div className="absolute inset-0">
           <video
