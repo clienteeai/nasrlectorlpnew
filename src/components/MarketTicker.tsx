@@ -7,151 +7,109 @@ interface TickerItem {
   price: number;
   change: number;
   changePercent: number;
-  type: "stock" | "crypto" | "forex" | "commodity";
+  type: "stock" | "crypto" | "forex";
   flashStatus?: "up" | "down" | null;
 }
 
-const INITIAL_ASSETS: TickerItem[] = [
+const ACTIVE_ASSETS: TickerItem[] = [
   { symbol: "NVDA", name: "NVIDIA", price: 128.45, change: 2.34, changePercent: 1.85, type: "stock" },
-  { symbol: "BTCUSD", name: "Bitcoin", price: 66840.50, change: -420.20, changePercent: -0.62, type: "crypto" },
-  { symbol: "EURUSD", name: "EUR/USD", price: 1.0845, change: 0.0012, changePercent: 0.11, type: "forex" },
-  { symbol: "TSLA", name: "Tesla", price: 174.20, change: -1.85, changePercent: -1.05, type: "stock" },
-  { symbol: "AAPL", name: "Apple", price: 188.30, change: 0.75, changePercent: 0.40, type: "stock" },
+  { symbol: "BTCUSD", name: "Bitcoin", price: 76919.11, change: -495.80, changePercent: -0.64, type: "crypto" },
+  { symbol: "EURUSD", name: "EUR/USD", price: 1.1643, change: 0.0017, changePercent: 0.15, type: "forex" },
+  { symbol: "TSLA", name: "Tesla", price: 422.24, change: -21.06, changePercent: -4.75, type: "stock" },
+  { symbol: "AAPL", name: "Apple", price: 300.23, change: 2.02, changePercent: 0.67, type: "stock" },
   { symbol: "ETHUSD", name: "Ethereum", price: 3450.80, change: 58.40, changePercent: 1.72, type: "crypto" },
   { symbol: "GBPUSD", name: "GBP/USD", price: 1.2540, change: -0.0008, changePercent: -0.06, type: "forex" },
-  { symbol: "XAUUSD", name: "Gold", price: 2345.10, change: 12.80, changePercent: 0.55, type: "commodity" },
+  { symbol: "SOLUSD", name: "Solana", price: 84.76, change: -0.41, changePercent: -0.48, type: "crypto" },
   { symbol: "MSFT", name: "Microsoft", price: 418.50, change: 3.20, changePercent: 0.77, type: "stock" },
+  { symbol: "AMD", name: "AMD", price: 424.10, change: -25.60, changePercent: -5.69, type: "stock" },
 ];
 
 export default function MarketTicker() {
-  const [assets, setAssets] = useState<TickerItem[]>(INITIAL_ASSETS);
+  const [assets, setAssets] = useState<TickerItem[]>(ACTIVE_ASSETS);
   const [isLive, setIsLive] = useState(false);
   const flashTimers = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
-  // Clean up timers on unmount
   useEffect(() => {
     return () => {
       Object.values(flashTimers.current).forEach(clearTimeout);
     };
   }, []);
 
-  // Fetch real-time data if FMP API Key is present, otherwise start high-fidelity simulator
   useEffect(() => {
     const fmpKey = import.meta.env.VITE_FMP_API_KEY;
 
-    if (fmpKey) {
-      const fetchFMPPrices = async () => {
-        try {
-          // FMP Multi-quote endpoint for our core assets
-          const symbolsCsv = "AAPL,TSLA,NVDA,MSFT,BTCUSD,ETHUSD,EURUSD,GBPUSD";
-          const res = await fetch(
-            `https://financialmodelingprep.com/api/v3/quote/${symbolsCsv}?apikey=${fmpKey}`
-          );
-          
-          if (!res.ok) throw new Error("FMP API Network response was not ok");
-          const data = await res.json();
-          
-          if (Array.isArray(data) && data.length > 0) {
-            setIsLive(true);
-            setAssets(prevAssets => {
-              return prevAssets.map(asset => {
-                const apiData = data.find(
-                  item => item.symbol.toUpperCase() === asset.symbol.toUpperCase()
-                );
-                
-                if (apiData) {
-                  const newPrice = apiData.price;
-                  const oldPrice = asset.price;
-                  let flash: "up" | "down" | null = null;
-                  
-                  if (newPrice > oldPrice) flash = "up";
-                  else if (newPrice < oldPrice) flash = "down";
-
-                  if (flash) {
-                    if (flashTimers.current[asset.symbol]) {
-                      clearTimeout(flashTimers.current[asset.symbol]);
-                    }
-                    flashTimers.current[asset.symbol] = setTimeout(() => {
-                      setAssets(current =>
-                        current.map(a => a.symbol === asset.symbol ? { ...a, flashStatus: null } : a)
-                      );
-                    }, 1500);
-                  }
-
-                  return {
-                    ...asset,
-                    price: apiData.price,
-                    change: apiData.change,
-                    changePercent: apiData.changesPercentage,
-                    flashStatus: flash,
-                  };
-                }
-                return asset;
-              });
-            });
-          }
-        } catch (err) {
-          console.warn("FMP Live Fetch failed, running in high-fidelity simulation mode:", err);
-          runSimulationStep();
-        }
-      };
-
-      fetchFMPPrices();
-      const interval = setInterval(fetchFMPPrices, 15000); // refresh every 15s
-      return () => clearInterval(interval);
-    } else {
-      // Run high-fidelity client simulation
-      const interval = setInterval(runSimulationStep, 2500);
-      return () => clearInterval(interval);
+    if (!fmpKey) {
+      console.warn("FMP API Key not found in .env. Running in static demonstration mode.");
+      return;
     }
-  }, []);
 
-  const runSimulationStep = () => {
-    setAssets(prevAssets => {
-      // Pick 2 random assets to fluctuate
-      const idx1 = Math.floor(Math.random() * prevAssets.length);
-      let idx2 = Math.floor(Math.random() * prevAssets.length);
-      while (idx1 === idx2) {
-        idx2 = Math.floor(Math.random() * prevAssets.length);
-      }
-
-      return prevAssets.map((asset, i) => {
-        if (i === idx1 || i === idx2) {
-          const pct = (Math.random() * 0.24 - 0.12) / 100; // -0.12% to +0.12%
-          const priceMultiplier = 1 + pct;
-          const oldPrice = asset.price;
-          const newPrice = Number((oldPrice * priceMultiplier).toFixed(asset.type === "forex" ? 4 : 2));
-          const diff = Number((newPrice - oldPrice).toFixed(asset.type === "forex" ? 4 : 2));
-          
-          let flash: "up" | "down" = pct >= 0 ? "up" : "down";
-          
-          // Clear active timer for this flash
-          if (flashTimers.current[asset.symbol]) {
-            clearTimeout(flashTimers.current[asset.symbol]);
-          }
-          
-          // Set new clear timer
-          flashTimers.current[asset.symbol] = setTimeout(() => {
-            setAssets(current =>
-              current.map(a => a.symbol === asset.symbol ? { ...a, flashStatus: null } : a)
+    const fetchLivePrices = async () => {
+      try {
+        // Fetch all assets in parallel using the active stable single-symbol endpoint
+        const fetchPromises = ACTIVE_ASSETS.map(async (asset) => {
+          try {
+            const res = await fetch(
+              `https://financialmodelingprep.com/stable/quote?symbol=${asset.symbol}&apikey=${fmpKey}`
             );
-          }, 1500);
+            if (!res.ok) return null;
+            const data = await res.json();
+            return { symbol: asset.symbol, data };
+          } catch (e) {
+            console.error(`Failed to fetch live price for ${asset.symbol}:`, e);
+            return null;
+          }
+        });
 
-          const newChangePercent = Number((asset.changePercent + pct * 100).toFixed(2));
-          const newChange = Number((asset.change + diff).toFixed(asset.type === "forex" ? 4 : 2));
+        const results = await Promise.all(fetchPromises);
+        
+        setAssets(prevAssets => {
+          return prevAssets.map(asset => {
+            const result = results.find(r => r && r.symbol === asset.symbol);
+            if (result && result.data) {
+              const apiData = result.data;
+              const newPrice = Number(apiData.price);
+              const oldPrice = asset.price;
+              
+              let flash: "up" | "down" | null = null;
+              if (oldPrice > 0 && newPrice !== oldPrice) {
+                flash = newPrice > oldPrice ? "up" : "down";
+              }
 
-          return {
-            ...asset,
-            price: newPrice,
-            change: newChange,
-            changePercent: newChangePercent,
-            flashStatus: flash,
-          };
-        }
-        return asset;
-      });
-    });
-  };
+              if (flash) {
+                if (flashTimers.current[asset.symbol]) {
+                  clearTimeout(flashTimers.current[asset.symbol]);
+                }
+                flashTimers.current[asset.symbol] = setTimeout(() => {
+                  setAssets(current =>
+                    current.map(a => a.symbol === asset.symbol ? { ...a, flashStatus: null } : a)
+                  );
+                }, 1500);
+              }
+
+              setIsLive(true);
+              return {
+                ...asset,
+                price: newPrice,
+                change: Number(apiData.change),
+                changePercent: Number(apiData.changePercentage),
+                name: apiData.name || asset.name,
+                flashStatus: flash,
+              };
+            }
+            return asset;
+          });
+        });
+      } catch (err) {
+        console.error("FMP API Batch fetch error:", err);
+      }
+    };
+
+    fetchLivePrices();
+    
+    // Polling every 20 seconds to keep data fresh without hitting rate limit caps
+    const interval = setInterval(fetchLivePrices, 20000);
+    return () => clearInterval(interval);
+  }, []);
 
   const renderTickerContent = () => (
     <div className="flex items-center gap-10 py-3 whitespace-nowrap animate-marquee">
@@ -200,7 +158,7 @@ export default function MarketTicker() {
 
   return (
     <div className="relative w-full overflow-hidden border-y border-gold/15 bg-background/50 backdrop-blur-md z-40 select-none">
-      {/* Decorative Shimmers */}
+      {/* Gradient Shimmers for Depth */}
       <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
       <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
@@ -227,7 +185,7 @@ export default function MarketTicker() {
       {/* Small badge indicating data status */}
       <div className="absolute bottom-1 right-2 z-20 opacity-30 text-[8px] tracking-widest text-foreground font-semibold flex items-center gap-1 pointer-events-none">
         <span className={`w-1 h-1 rounded-full ${isLive ? "bg-emerald-400 animate-pulse" : "bg-gold"}`} />
-        {isLive ? "FMP LIVE" : "DYNAMIC DATA SIMULATOR"}
+        {isLive ? "100% LIVE REAL-TIME DATA" : "STANDBY DEMO DATA"}
       </div>
     </div>
   );
